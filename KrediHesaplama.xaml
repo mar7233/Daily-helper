@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="DailyHelper.KrediHesaplama"
+    x:Name="PageRoot"
+    Title="Kredi Hesaplama"
+    BackgroundColor="White">
+
+ 
+
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="AccentPurple">pink</Color>
+            <Color x:Key="LightGrayText">#666666</Color>
+
+            <Style TargetType="Label" x:Key="FieldLabel">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="{StaticResource LightGrayText}" />
+                <Setter Property="VerticalTextAlignment" Value="Center" />
+            </Style>
+
+            <Style TargetType="Label" x:Key="FieldValue">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="HorizontalTextAlignment" Value="End" />
+            </Style>
+
+            <Style TargetType="Button" x:Key="PrimaryButton">
+                <Setter Property="BackgroundColor" Value="{StaticResource GrayBackground}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="HeightRequest" Value="44" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Grid with 5 rows: fields, spacer, results, button, keypad -->
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" Padding="18" RowSpacing="12">
+
+        <!-- Fields area (Grid.Row=0) -->
+        <VerticalStackLayout Grid.Row="0" Spacing="10">
+
+            <!-- Kredi Türü Picker -->
+            <Picker x:Name="krediTuruPicker"
+                    Title="Kredi Türü Seçin"
+                    HorizontalOptions="Fill"
+                    Margin="0,0,0,4">
+                <Picker.Items>
+                    <x:String>İhtiyaç Kredisi</x:String>
+                    <x:String>Taşıt Kredisi</x:String>
+                    <x:String>Konut Kredisi</x:String>
+                    <x:String>Ticari Kredisi</x:String>
+                </Picker.Items>
+            </Picker>
+            <BoxView HeightRequest="1" Color="#E8E8E8"/>
+
+            <!-- Kredi Tutarı row -->
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center" Padding="0,6">
+                <Label Text="Kredi Tutarı (TL)" Style="{StaticResource FieldLabel}" Grid.Column="0" VerticalOptions="Center"/>
+                <Frame Grid.Column="1" Padding="0" BackgroundColor="Transparent" HasShadow="False" HorizontalOptions="End">
+                    <Label x:Name="tutarLabel" Text="0.00" Style="{StaticResource FieldValue}" VerticalOptions="Center" WidthRequest="160">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Tutar_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+            </Grid>
+            <BoxView HeightRequest="1" Color="#E0E0E0"/>
+
+            <!-- Faiz Oranı row -->
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center" Padding="0,6">
+                <Label Text="Faiz Oranı (%)" Style="{StaticResource FieldLabel}" Grid.Column="0"/>
+                <Frame Grid.Column="1" Padding="0" BackgroundColor="Transparent" HasShadow="False" HorizontalOptions="End">
+                    <Label x:Name="faizLabel" Text="0.00" Style="{StaticResource FieldValue}" WidthRequest="100">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Faiz_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+            </Grid>
+            <BoxView HeightRequest="1" Color="#E0E0E0"/>
+
+            <!-- Vade row -->
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center" Padding="0,6">
+                <Label Text="Vade (Ay)" Style="{StaticResource FieldLabel}" Grid.Column="0"/>
+                <Frame Grid.Column="1" Padding="0" BackgroundColor="Transparent" HasShadow="False" HorizontalOptions="End">
+                    <Label x:Name="vadeLabel" Text="6" Style="{StaticResource FieldValue}" WidthRequest="60">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Vade_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </Frame>
+            </Grid>
+            <BoxView HeightRequest="1" Color="#E0E0E0"/>
+
+            <!-- Slider for vade -->
+            <Slider x:Name="vadeSlider" Minimum="1" Maximum="60" Value="6" ValueChanged="VadeSlider_ValueChanged" />
+
+        </VerticalStackLayout>
+
+        <!-- Spacer (Grid.Row=1) -->
+        <BoxView Grid.Row="1" HeightRequest="6" Color="Transparent"/>
+
+        <!-- Results area (Grid.Row=2) -->
+        <Frame Grid.Row="2" CornerRadius="8" Padding="12" BackgroundColor="#FAFAFA" HasShadow="True">
+            <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto,Auto" RowSpacing="6">
+                <Label Text="Aylık Taksit:" Grid.Row="0" Grid.Column="0" TextColor="{StaticResource LightGrayText}" />
+                <Label x:Name="aylikLabel" Text="0.00" Grid.Row="0" Grid.Column="1" TextColor="Black" />
+
+                <Label Text="Toplam Ödeme:" Grid.Row="1" Grid.Column="0" TextColor="{StaticResource LightGrayText}" />
+                <Label x:Name="toplamLabel" Text="0.00" Grid.Row="1" Grid.Column="1" TextColor="Black" />
+
+                <Label Text="Toplam Faiz:" Grid.Row="2" Grid.Column="0" TextColor="{StaticResource LightGrayText}" />
+                <Label x:Name="faizToplamLabel" Text="0.00" Grid.Row="2" Grid.Column="1" TextColor="Black" />
+            </Grid>
+        </Frame>
+
+        <!-- Calculate button (Grid.Row=3) -->
+        <Button Grid.Row="3" Text="Hesapla" Style="{StaticResource PrimaryButton}" Clicked="Hesapla_Clicked" />
+
+        <!-- Custom numeric keypad (Grid.Row=4) -->
+        <Grid x:Name="KeypadGrid" Grid.Row="4" IsVisible="False" Margin="0,12,0,0" ColumnSpacing="8" RowSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="80" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="56" />
+                <RowDefinition Height="56" />
+                <RowDefinition Height="56" />
+                <RowDefinition Height="56" />
+            </Grid.RowDefinitions>
+
+            <!-- Row 1 -->
+            <Button Text="1" Grid.Row="0" Grid.Column="0" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="2" Grid.Row="0" Grid.Column="1" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="3" Grid.Row="0" Grid.Column="2" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="⌫" Grid.Row="0" Grid.Column="3" Clicked="Backspace_Clicked" CornerRadius="12" BackgroundColor="LightPink" />
+
+            <!-- Row 2 -->
+            <Button Text="4" Grid.Row="1" Grid.Column="0" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="5" Grid.Row="1" Grid.Column="1" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="6" Grid.Row="1" Grid.Column="2" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="C" Grid.Row="1" Grid.Column="3" Clicked="Clear_Clicked" CornerRadius="12" BackgroundColor="Gray" />
+
+            <!-- Row 3 -->
+            <Button Text="7" Grid.Row="2" Grid.Column="0" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="8" Grid.Row="2" Grid.Column="1" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="9" Grid.Row="2" Grid.Column="2" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="." Grid.Row="2" Grid.Column="3" Clicked="Dot_Clicked" CornerRadius="12" BackgroundColor="Gray" />
+
+            <!-- Row 4 -->
+            <Button Text="0" Grid.Row="3" Grid.Column="0" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="00" Grid.Row="3" Grid.Column="1" Clicked="DoubleZero_Clicked" CornerRadius="12" />
+            <Button Text="✓" Grid.Row="3" Grid.Column="2" Clicked="Accept_Clicked" CornerRadius="12" BackgroundColor="{StaticResource LightGrayText}" TextColor="White" />
+            <Button Text="kapat" Grid.Row="3" Grid.Column="3" Clicked="HideKeypad_Clicked" CornerRadius="12" BackgroundColor="Gray" />
+        </Grid>
+    </Grid>
+</ContentPage>
+ 

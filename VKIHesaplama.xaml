@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="DailyHelper.VKIHesaplama"
+    x:Name="PageRoot"
+    Title="VKİ Hesaplama"
+   
+    BackgroundColor="White">
+
+    <!-- Optional: show dynamic title in the Shell bar (uses PageRoot.Title) -->
+    <Shell.TitleView>
+        <Label Text="{Binding Title, Source={x:Reference PageRoot}}"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               TextColor="Black"
+               FontSize="18"
+               Margin="12,0,0,0" />
+    </Shell.TitleView>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="AccentOrange">#F57C00</Color>
+            <Color x:Key="NormalGreen">#2E7D32</Color>
+            <Color x:Key="WarningRed">#D32F2F</Color>
+            <Style TargetType="Label" x:Key="FieldLabel">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="#666" />
+            </Style>
+            <Style TargetType="Label" x:Key="ValueLabel">
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="TextColor" Value="Black" />
+                <Setter Property="HorizontalTextAlignment" Value="End" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto" Padding="16" RowSpacing="12">
+
+        <!-- Header / formula -->
+        <StackLayout Grid.Row="0" HorizontalOptions="Center">
+            <Label Text="Vki = kg / (boy * boy)"
+                   FontSize="20"
+                   TextColor="{StaticResource BlackPrimary}"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+        </StackLayout>
+
+        <!-- Controls: kilo and boy -->
+        <StackLayout Grid.Row="1" Spacing="8">
+
+            <!-- Kilo row -->
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center" Padding="0,6">
+                <Label Text="Kilunuz (KG):" Style="{StaticResource FieldLabel}" Grid.Column="0" VerticalOptions="Center"/>
+                <StackLayout Grid.Column="1" Orientation="Vertical" HorizontalOptions="End">
+                    <!-- numeric value (tap to open keypad) -->
+                    <Label x:Name="kiloValueLabel"
+                           Text="00.0"
+                           Style="{StaticResource ValueLabel}"
+                           WidthRequest="100"
+                           HorizontalOptions="End">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="KiloLabel_Tapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <!-- thin underline -->
+                    <BoxView HeightRequest="2" Color="#DDD" WidthRequest="100" HorizontalOptions="End" />
+                </StackLayout>
+            </Grid>
+
+            <Slider x:Name="kiloSlider" Minimum="30" Maximum="150" ValueChanged="KiloSlider_ValueChanged" />
+
+            <!-- Boy row -->
+            <Grid ColumnDefinitions="*,Auto" VerticalOptions="Center" Padding="0,6">
+                <Label Text="Boyunuz (cm):" Style="{StaticResource FieldLabel}" Grid.Column="0" VerticalOptions="Center"/>
+                <StackLayout Grid.Column="1" Orientation="Vertical" HorizontalOptions="End">
+                    <Label x:Name="boyValueLabel"
+                           Text="00.0"
+                           Style="{StaticResource ValueLabel}"
+                           WidthRequest="100"
+                           HorizontalOptions="End">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="BoyLabel_Tapped" />
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <BoxView HeightRequest="2" Color="#DDD" WidthRequest="100" HorizontalOptions="End" />
+                </StackLayout>
+            </Grid>
+
+            <Slider x:Name="boySlider" Minimum="120" Maximum="210" ValueChanged="BoySlider_ValueChanged" />
+
+        </StackLayout>
+
+        <!-- Results -->
+        <StackLayout Grid.Row="2" Spacing="8" Padding="6">
+            <Grid ColumnDefinitions="Auto,Auto" VerticalOptions="Center">
+                <Label Text="VKİ:" FontAttributes="Bold" Grid.Column="0" VerticalOptions="Center" />
+                <Label x:Name="vkiValueLabel" Text="0.00" Grid.Column="1" FontSize="22" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center" />
+            </Grid>
+
+            <Label x:Name="vkiCategoryLabel" Text="---" TextColor="{StaticResource AccentOrange}" FontAttributes="Bold" />
+        </StackLayout>
+
+        <!-- Custom keypad area (hidden by default) -->
+        <Grid Grid.Row="3" x:Name="KeypadGrid" IsVisible="False" ColumnSpacing="8" RowSpacing="8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="90" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="56" />
+                <RowDefinition Height="56" />
+                <RowDefinition Height="56" />
+                <RowDefinition Height="56" />
+            </Grid.RowDefinitions>
+
+            <!-- Row 1 -->
+            <Button Text="1" Grid.Row="0" Grid.Column="0" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="2" Grid.Row="0" Grid.Column="1" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="3" Grid.Row="0" Grid.Column="2" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="⌫" Grid.Row="0" Grid.Column="3" Clicked="Backspace_Clicked" CornerRadius="12" BackgroundColor="Pink" />
+
+            <!-- Row 2 -->
+            <Button Text="4" Grid.Row="1" Grid.Column="0" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="5" Grid.Row="1" Grid.Column="1" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="6" Grid.Row="1" Grid.Column="2" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="C" Grid.Row="1" Grid.Column="3" Clicked="Clear_Clicked" CornerRadius="12" BackgroundColor="Gray" />
+
+            <!-- Row 3 -->
+            <Button Text="7" Grid.Row="2" Grid.Column="0" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="8" Grid.Row="2" Grid.Column="1" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="9" Grid.Row="2" Grid.Column="2" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="." Grid.Row="2" Grid.Column="3" Clicked="Dot_Clicked" CornerRadius="12" BackgroundColor="Gray" />
+
+            <!-- Row 4 -->
+            <Button Text="0" Grid.Row="3" Grid.Column="0" Clicked="Key_Clicked" CornerRadius="12" />
+            <Button Text="00" Grid.Row="3" Grid.Column="1" Clicked="DoubleZero_Clicked" CornerRadius="12" />
+            <Button Text="✓" Grid.Row="3" Grid.Column="2" Clicked="Accept_Clicked" CornerRadius="12" BackgroundColor="{StaticResource Key=MutedGray}" TextColor="White" />
+            <Button Text="kapat" Grid.Row="3" Grid.Column="3" Clicked="HideKeypad_Clicked" CornerRadius="12" BackgroundColor="Gray" />
+        </Grid>
+    </Grid>
+</ContentPage>

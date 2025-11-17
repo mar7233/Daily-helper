@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Shell xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:local="clr-namespace:DailyHelper"
+       x:Class="DailyHelper.AppShell"
+       Shell.FlyoutBackgroundColor="{StaticResource GrayBackground}"
+       Shell.BackgroundColor="{StaticResource BlackPrimary}"
+       Shell.ForegroundColor="Black"
+       Title="Daily Helper">
+
+    <!-- ========================================================= -->
+    <!-- GENEL UYGULAMA YAPISI & MENÜ (Flyout)                     -->
+    <!-- Açıklama: .NET MAUI Shell kullanılarak 4 sayfalık        -->
+    <!--           responsive bir uygulama oluşturuldu            -->
+    <!-- Kriter: Kod düzenli, anlamlı, yorumlu ve hatasız         -->
+    <!--         Tüm sayfalar Flyout menüden erişilebilir         -->
+    <!-- ========================================================= -->
+
+    <!-- Flyout üst kısım (header) - Profil resmi ve isim -->
+    <Shell.FlyoutHeader>
+        <Grid Padding="16" BackgroundColor="{StaticResource BlackPrimary}">
+            <!-- ========================================================= -->
+            <!-- SAYFA 1 KRİTERİ: Profil resmi ve Ad-Soyad gösteriliyor     -->
+            <!-- Kriter: Profil resmi eklenmiş + Ad-soyad Label ile alınmış -->
+            <!-- ========================================================= -->
+            <HorizontalStackLayout Spacing="12" VerticalOptions="Center">
+                <Image Source="profile.png" 
+                       HeightRequest="48" 
+                       WidthRequest="48" 
+                       Aspect="AspectFill"
+                       SemanticProperties.Description="Profil resmi" />
+                <Label Text="Mariam Mahmoud" 
+                       VerticalOptions="Center" 
+                       TextColor="Black"
+                       FontSize="16"
+                       FontAttributes="Bold" />
+            </HorizontalStackLayout>
+        </Grid>
+    </Shell.FlyoutHeader>
+
+    <!-- ========================================================= -->
+    <!-- MENÜ MADDELERİ - 4 farklı sayfa FlyoutItem ile eklendi     -->
+    <!-- Her sayfa kendi ikonuna sahip, kullanıcı dostu tasarım    -->
+    <!-- ========================================================= -->
+
+    <!-- 1. Ana Sayfa -->
+    <FlyoutItem Title="Ana Sayfa" Icon="home.png">
+        <!-- SAYFA 1: Ad-Soyad + Profil resmi alma sayfası -->
+        <ShellContent ContentTemplate="{DataTemplate local:AnaSayfa}" />
+    </FlyoutItem>
+
+    <!-- 2. Kredi Hesaplama  -->
+    <FlyoutItem Title="Kredi Hesaplama" Icon="kredi.png">
+        <ShellContent ContentTemplate="{DataTemplate local:KrediHesaplama}" />
+    </FlyoutItem>
+
+    <!-- 3. Vücut Kitle İndeksi Hesaplama  -->
+    <FlyoutItem Title="Vücut Kitle İndeksi" Icon="heart.png">
+        <ShellContent ContentTemplate="{DataTemplate local:VKIHesaplama}" />
+    </FlyoutItem>
+
+    <!-- 4. Renk Seçici  -->
+    <FlyoutItem Title="Renk Seçici" Icon="palette.png">
+        <ShellContent ContentTemplate="{DataTemplate local:RenkSecici}" />
+    </FlyoutItem>
+
+</Shell>

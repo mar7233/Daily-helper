@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="DailyHelper.RenkSecici"
+    x:Name="PageRoot"
+    Title="Renk Seçimi"
+    BackgroundColor="#121212">
+
+    <!-- Sayfa başlığının solda görünmesi için TitleView -->
+    <Shell.TitleView>
+        <Label Text="{Binding Title, Source={x:Reference PageRoot}}"
+               HorizontalOptions="Start"
+               VerticalOptions="Center"
+               TextColor="White"
+               FontSize="16"
+               Margin="12,0,0,0"/>
+    </Shell.TitleView>
+
+    <!-- Renk ve stil tanımlamaları -->
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Color x:Key="AccentPurple">#5E35B1</Color>
+            <Color x:Key="AccentPurpleLight">#7E57C2</Color>
+            <Color x:Key="CardBg">#FFFFFF</Color>
+            <Color x:Key="PageBg">#121212</Color>
+            <Style TargetType="Label" x:Key="FieldLabel">
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+            <Style TargetType="Button" x:Key="PrimaryButton">
+                <Setter Property="BackgroundColor" Value="{StaticResource BlackPrimary}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="22" />
+                <Setter Property="HeightRequest" Value="44" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <!-- Ana düzen (üstte kontrol kartı, altta renk önizleme) -->
+    <Grid RowDefinitions="Auto, *" Padding="12" RowSpacing="12">
+
+        <!-- Kontrollerin bulunduğu beyaz kart -->
+        <Frame Grid.Row="0"
+               BackgroundColor="{StaticResource CardBg}"
+               CornerRadius="12"
+               HasShadow="True"
+               Padding="16"
+               Margin="6"
+               BorderColor="#E0E0E0">
+            <VerticalStackLayout Spacing="10">
+
+                <!-- Kart başlığı -->
+                <Label Text="Renk Seçici"
+                       FontAttributes="Bold"
+                       FontSize="20"
+                       HorizontalOptions="Center" />
+
+                <!-- Kırmızı kanal kontrolü -->
+                <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
+                    <Label Text="Kırmızı Ton:" TextColor="#CC0000" Style="{StaticResource FieldLabel}" VerticalOptions="Center" />
+                    <Label x:Name="redValueLabel" Text="0" HorizontalOptions="End" Grid.Column="1" VerticalOptions="Center" TextColor="#CC0000" />
+                </Grid>
+                <Slider x:Name="redSlider" Minimum="0" Maximum="255" ValueChanged="OnColorChanged"
+                        MinimumTrackColor="#CC0000" MaximumTrackColor="#ECECEC" />
+
+                <!-- Yeşil kanal kontrolü -->
+                <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
+                    <Label Text="Yeşil Ton:" TextColor="#008000" Style="{StaticResource FieldLabel}" VerticalOptions="Center" />
+                    <Label x:Name="greenValueLabel" Text="0" HorizontalOptions="End" Grid.Column="1" VerticalOptions="Center" TextColor="#008000" />
+                </Grid>
+                <Slider x:Name="greenSlider" Minimum="0" Maximum="255" ValueChanged="OnColorChanged"
+                        MinimumTrackColor="#008000" MaximumTrackColor="#ECECEC" />
+
+                <!-- Mavi kanal kontrolü -->
+                <Grid ColumnDefinitions="Auto, *" VerticalOptions="Center">
+                    <Label Text="Mavi Ton:" TextColor="#0000CC" Style="{StaticResource FieldLabel}" VerticalOptions="Center" />
+                    <Label x:Name="blueValueLabel" Text="0" HorizontalOptions="End" Grid.Column="1" VerticalOptions="Center" TextColor="#0000CC" />
+                </Grid>
+                <Slider x:Name="blueSlider" Minimum="0" Maximum="255" ValueChanged="OnColorChanged"
+                        MinimumTrackColor="#0000CC" MaximumTrackColor="#ECECEC" />
+
+                <!-- HEX kodu gösterimi ve kopyalama butonu -->
+                <Frame CornerRadius="6" Padding="8" BackgroundColor="#F5F5F5" BorderColor="Black" HasShadow="False" Margin="0,6,0,0">
+                    <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
+                        <Label x:Name="colorCodeLabel" Text="#000000" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                        <Button x:Name="copyButton" Text="Copy" WidthRequest="40" HeightRequest="36" Clicked="Kopyala_Clicked" BackgroundColor="WhiteSmoke" />
+                    </HorizontalStackLayout>
+                </Frame>
+
+                <!-- Rastgele renk üretme butonu -->
+                <Button Text="Random" Style="{StaticResource PrimaryButton}" Clicked="Rastgele_Clicked" />
+
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Büyük renk önizleme alanı (arka plan rengi slider’lardan gelen renkle değişir) -->
+        <Frame Grid.Row="1"
+               x:Name="previewFrame"
+               CornerRadius="12"
+               HasShadow="True"
+               BackgroundColor="#5E35B1"
+               Margin="6"
+               Padding="0"
+               VerticalOptions="FillAndExpand">
+        </Frame>
+
+    </Grid>
+</ContentPage>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="DailyHelper.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Colors -->
+            <Color x:Key="BlackPrimary">#000000</Color>
+            <Color x:Key="GrayBackground">#2E2E2E</Color>
+            <Color x:Key="LightGray">#BFBFBF</Color>
+            <Color x:Key="MutedGray">#7A7A7A</Color>
+
+            <!-- Default Page style -->
+            <Style TargetType="ContentPage">
+                <Setter Property="BackgroundColor" Value="{StaticResource BlackPrimary}" />
+            </Style>
+
+            <!-- Default Label -->
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource LightGray}" />
+            </Style>
+
+            <!-- Title label on home -->
+            <Style x:Key="TitleLabel" TargetType="Label">
+                <Setter Property="FontSize" Value="28" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+
+            <!-- Button style -->
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource GrayBackground}" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="CornerRadius" Value="6" />
+                <Setter Property="HeightRequest" Value="48" />
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
