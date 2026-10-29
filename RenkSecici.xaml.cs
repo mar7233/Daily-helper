@@ -58,6 +58,8 @@ public partial class RenkSecici : ContentPage
         var contrastColor = (brightness < 0.5) ? Colors.White : Colors.Black;
         colorCodeLabel.TextColor = contrastColor;
         copyButton.TextColor = contrastColor;
+        copyButton.BorderColor = contrastColor;
+        hexFrame.BackgroundColor = Color.FromRgb(r, g, b);
     }
 
     // Kopyala butonuna basıldığında HEX kodunu panoya kopyalar

@@ -51,6 +51,7 @@
 
                 <!-- Kart başlığı -->
                 <Label Text="Renk Seçici"
+                       TextColor="{StaticResource AccentPurple}"
                        FontAttributes="Bold"
                        FontSize="20"
                        HorizontalOptions="Center" />
@@ -80,10 +81,10 @@
                         MinimumTrackColor="#0000CC" MaximumTrackColor="#ECECEC" />
 
                 <!-- HEX kodu gösterimi ve kopyalama butonu -->
-                <Frame CornerRadius="6" Padding="8" BackgroundColor="#F5F5F5" BorderColor="Black" HasShadow="False" Margin="0,6,0,0">
+                <Frame x:Name="hexFrame" CornerRadius="6" Padding="8" BackgroundColor="#F5F5F5" BorderColor="Black" HasShadow="False" Margin="0,6,0,0">
                     <HorizontalStackLayout Spacing="8" VerticalOptions="Center">
-                        <Label x:Name="colorCodeLabel" Text="#000000" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
-                        <Button x:Name="copyButton" Text="Copy" WidthRequest="40" HeightRequest="36" Clicked="Kopyala_Clicked" BackgroundColor="WhiteSmoke" />
+                        <Label x:Name="colorCodeLabel" Text="#000000" TextColor="Black" FontAttributes="Bold" FontSize="16" HorizontalOptions="CenterAndExpand" VerticalOptions="Center" />
+                        <Button x:Name="copyButton" Text="Copy" WidthRequest="64" HeightRequest="36" Clicked="Kopyala_Clicked" BackgroundColor="Transparent" BorderWidth="1" />
                     </HorizontalStackLayout>
                 </Frame>
 

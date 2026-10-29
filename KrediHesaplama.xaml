@@ -139,7 +139,7 @@
             <Button Text="1" Grid.Row="0" Grid.Column="0" Clicked="Key_Clicked" CornerRadius="12" />
             <Button Text="2" Grid.Row="0" Grid.Column="1" Clicked="Key_Clicked" CornerRadius="12" />
             <Button Text="3" Grid.Row="0" Grid.Column="2" Clicked="Key_Clicked" CornerRadius="12" />
-            <Button Text="⌫" Grid.Row="0" Grid.Column="3" Clicked="Backspace_Clicked" CornerRadius="12" BackgroundColor="LightPink" />
+            <Button Text="⌫" Grid.Row="0" Grid.Column="3" Clicked="Backspace_Clicked" CornerRadius="12" BackgroundColor="LightPink" TextColor="#B00020" FontSize="20" />
 
             <!-- Row 2 -->
             <Button Text="4" Grid.Row="1" Grid.Column="0" Clicked="Key_Clicked" CornerRadius="12" />
